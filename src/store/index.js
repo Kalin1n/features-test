@@ -3,6 +3,7 @@ import { createSlice, configureStore } from "@reduxjs/toolkit";
 const initialState = {
   value: 0,
 };
+
 // Logic
 const counterSlice = createSlice({
   name: "counter",
@@ -16,10 +17,22 @@ const counterSlice = createSlice({
       console.log("Decrementing");
       state.value -= 1;
     },
+    addAmount: (state, action) => {
+      console.log("Action : ", action);
+      state.value += Number(action.payload);
+    },
   },
 });
 
-export const { increment, decrement } = counterSlice.actions;
+export const asyncAddOne = () => {
+  return async (dispatch) => {
+    setTimeout(() => {
+      dispatch(increment());
+    }, 2000);
+  };
+};
+
+export const { increment, decrement, addAmount } = counterSlice.actions;
 
 const store = configureStore({
   reducer: {
